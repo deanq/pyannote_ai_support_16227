@@ -15,7 +15,7 @@ def _blocking_diarize(path: str):
     print("Diarizing audio file")
     return _pipeline.diarize(path)
 
-async def _handler_async(event):
+async def handler(event):
     # pull out the URL
     path = event.get("input", {}).get("url")
 
@@ -26,10 +26,6 @@ async def _handler_async(event):
     print("Diarization complete")
     print(result)
     return result
-
-def handler(event):
-    # wrap our async logic so runpod.serverless.start can call it synchronously
-    return asyncio.run(_handler_async(event))
 
 # Start the Serverless function when the script is run
 if __name__ == '__main__':
