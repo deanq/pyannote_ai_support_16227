@@ -2,12 +2,14 @@ import runpod
 import asyncio
 from pyannote_ai import Pipeline
 from concurrent.futures import ProcessPoolExecutor
+import os
 
 # Process‐pool to dedicate its own GIL
 _executor = ProcessPoolExecutor()
 
 # Load the Pipeline once per container (model download + init is expensive!)
-_pipeline = Pipeline("pyannote/speaker-diarization", batch_size=8, debug=True)
+batch_size = int(os.environ.get("BATCH_SIZE", 2))
+_pipeline = Pipeline("pyannote/speaker-diarization", batch_size=batch_size, debug=True)
 
 def _blocking_diarize(path: str):
     # This entire call now runs in its own Python process (own GIL)
