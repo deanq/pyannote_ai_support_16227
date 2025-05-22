@@ -8,7 +8,7 @@ import os
 _executor = ProcessPoolExecutor()
 
 # Load the Pipeline once per container (model download + init is expensive!)
-batch_size = int(os.environ.get("BATCH_SIZE", 2))
+batch_size = int(os.environ.get("BATCH_SIZE", 8))
 _pipeline = Pipeline("pyannote/speaker-diarization", batch_size=batch_size, debug=True)
 
 
